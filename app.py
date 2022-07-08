@@ -37,12 +37,20 @@ def build_query(it, cmd, value):
 def perform_query():
     try:
         cmd_1 = request.args['cmd_1']
-        cmd_2 = request.args['cmd_2']
         val_1 = request.args['val_1']
+    except:
+        cmd_1 = None
+        val_1 = None
+    try:
+        cmd_2 = request.args['cmd_2']
         val_2 = request.args['val_2']
+    except:
+        cmd_2 = None
+        val_2 = None
+    try:
         file_name = request.args['file_name']
     except:
-        return BadRequest
+        return "Please, enter the file_name"
     path_file = os.path.join(DATA_DIR, file_name)
     if not os.path.exists(path_file):
         return f"{file_name} is not found"
@@ -52,3 +60,4 @@ def perform_query():
         res = build_query(res, cmd_2, val_2)
         res = '\n'.join(res)
     return app.response_class(res, content_type="text/plain")
+
